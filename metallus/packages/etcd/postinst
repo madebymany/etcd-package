@@ -12,6 +12,11 @@ case "$1" in
             echo "creating user '${USER}'"
             useradd --home "${HOME}" --user-group --system ${USER}
         fi
+
+        if [[ ! -d /etc/service/etcd ]]
+        then
+          ln -s /etc/sv/etcd /etc/service/
+        fi
         mkdir -p /var/lib/etcd
         chown etcd:etcd /var/lib/etcd
     ;;
