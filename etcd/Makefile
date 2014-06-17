@@ -5,14 +5,14 @@ GO_PATH:=/usr/local/go
 all: $(GO_PATH) $(ETCD_SOURCE) build
 
 $(GO_PATH):
-	curl -LSO http://golang.org/dl/go1.2.2.linux-amd64.tar.gz
-	tar -C /usr/local -xvf go1.2.2.linux-amd64.tar.gz
+	curl -LSOs http://golang.org/dl/go1.2.2.linux-amd64.tar.gz
+	tar -C /usr/local -xf go1.2.2.linux-amd64.tar.gz
 
 $(ETCD_SOURCE):
 	git clone $(GIT_URL)
 
 build:
-	export PATH=$$PATH:/usr/local/go/bin && cd etcd && ./build
+	export PATH=$$PATH:/usr/local/go/bin && cd etcd && /bin/bash < build
 
 install:
 	install -o root -g root $(ETCD_SOURCE)/bin/etcd /usr/local/bin
