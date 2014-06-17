@@ -12,7 +12,7 @@ $(ETCD_SOURCE):
 	git clone $(GIT_URL)
 
 build:
-	export PATH=$$PATH:/usr/local/go/bin && cd etcd && /bin/bash < build
+	export PATH=$$PATH:/usr/local/go/bin && echo $$PATH && cd etcd && echo $$(pwd) && /bin/bash < build
 
 install:
 	install -o root -g root $(ETCD_SOURCE)/bin/etcd /usr/local/bin
