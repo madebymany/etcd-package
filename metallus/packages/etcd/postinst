@@ -3,6 +3,13 @@ set -e
 
 HOME="/var/lib/etcd"
 USER="etcd"
+SERVICE="etcd"
+
+restart_service() {
+  echo "restarting ${SERVICE}"
+  sv restart $SERVICE
+}
+
 
 case "$1" in
     configure)
@@ -19,10 +26,12 @@ case "$1" in
         fi
         mkdir -p /var/lib/etcd
         chown etcd:etcd /var/lib/etcd
+        restart_service
     ;;
 
     triggered)
         echo "no triggers"
+        restart_service
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
