@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+exec 2>&1
+
+DEFAULTS=/etc/default/etcd
+DISCOVERY_URL=https://discovery.etcd.io
+
+if [[ -f ${DEFAULTS} ]]
+then
+  source $DEFAULTS
+fi
+
+eval $(sed -e "s/^/export /" /etc/environment)
+
+chpst -u etcd etcd -data-dir /var/lib/etcd -name $HOSTNAME -discovery ${DISCOVERY_URL}/${ETCD_TOKEN}

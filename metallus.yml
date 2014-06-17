@@ -1,0 +1,19 @@
+software_groups: &software
+  - "base"
+
+jobs:
+  etcd:
+    builder: "make"
+    software_groups: &software
+    base: "ubuntu:12.04"
+    start_in: "etcd"
+    packages:
+      - type: debian
+        name: etcd
+        build_deps:
+          - git-core
+        runtime_deps:
+          - runit-common
+        repos:
+          - mxm
+        target: install

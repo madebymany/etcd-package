@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+HOME="/var/lib/etcd"
+USER="etcd"
+
+case "$1" in
+    configure)
+
+        if ! id "${USER}" >/dev/null 2>&1
+        then
+            echo "creating user '${USER}'"
+            useradd --home "${HOME}" --user-group --system ${USER}
+        fi
+        mkdir -p /var/lib/etcd
+        chown etcd:etcd /var/lib/etcd
+    ;;
+
+    triggered)
+        echo "no triggers"
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
