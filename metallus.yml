@@ -10,9 +10,7 @@ jobs:
     packages:
       - type: debian
         name: etcd
-        build_deps:
-          - git-core
-        runtime_deps:
+        depends:
           - runit-common
         repos:
           - mxm
