@@ -3,14 +3,18 @@ set -e
 
 exec 2>&1
 
+HOSTNAME="$(hostname)"
+echo "${HOSTNAME}"
+
 DEFAULTS=/etc/default/etcd
-DISCOVERY_URL=https://discovery.etcd.io
 
 if [[ -f ${DEFAULTS} ]]
 then
   source $DEFAULTS
 fi
+ETCD_ADDR="${HOSTNAME}:4001"
+ETCD_PEER_ADDR="${HOSTNAME}:7001"
 
 eval $(sed -e "s/^/export /" /etc/environment)
 
-chpst -u etcd etcd -data-dir /var/lib/etcd -name $HOSTNAME -discovery ${DISCOVERY_URL}/${ETCD_TOKEN}
+chpst -u etcd etcd -data-dir /var/lib/etcd -name ${ETCD_NAME} -discovery ${ETCD_DISCOVERY_URL}

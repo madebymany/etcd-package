@@ -12,6 +12,7 @@ jobs:
         name: etcd
         depends:
           - runit-common
+          - uuid
         repos:
           - mxm
         target: install

@@ -10,10 +10,17 @@ restart_service() {
   sv restart $SERVICE
 }
 
+generate_uuid() {
+  if [[ -z "$(grep ETCD_NAME /etc/environment)" ]]
+  then
+    local ID="$(uuidgen -r)"
+    echo "ETCD_NAME=${ID}" | tee -a /etc/environment
+  fi
+}
+
 
 case "$1" in
     configure)
-
         if ! id "${USER}" >/dev/null 2>&1
         then
             echo "creating user '${USER}'"
@@ -27,6 +34,7 @@ case "$1" in
         mkdir -p /var/lib/etcd
         chown etcd:etcd /var/lib/etcd
         restart_service
+        generate_uuid
     ;;
 
     triggered)
