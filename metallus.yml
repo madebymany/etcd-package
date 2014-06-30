@@ -14,5 +14,5 @@ jobs:
           - runit-common
           - uuid
         repos:
-          - mxm
+          - mxm-public
         target: install
