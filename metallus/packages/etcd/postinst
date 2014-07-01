@@ -6,8 +6,11 @@ USER="etcd"
 SERVICE="etcd"
 
 restart_service() {
-  echo "restarting ${SERVICE}"
-  sv restart $SERVICE
+  if [[ -d /etc/sv/etcd/supervise ]]
+  then
+    echo "restarting ${SERVICE}"
+    sv restart $SERVICE
+  fi
 }
 
 generate_uuid() {
@@ -23,12 +26,13 @@ case "$1" in
     configure)
         if ! id "${USER}" >/dev/null 2>&1
         then
-            echo "creating user '${USER}'"
-            useradd --home "${HOME}" --user-group --system ${USER}
+          echo "creating user '${USER}'"
+          useradd --home "${HOME}" --user-group --system ${USER}
         fi
 
         if [[ ! -d /etc/service/etcd ]]
         then
+          echo "adding runit etcd symlink"
           ln -s /etc/sv/etcd /etc/service/
         fi
         mkdir -p /var/lib/etcd
