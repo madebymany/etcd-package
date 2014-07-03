@@ -4,7 +4,6 @@ set -e
 exec 2>&1
 
 HOSTNAME="$(hostname)"
-echo "${HOSTNAME}"
 
 DEFAULTS=/etc/default/etcd
 
@@ -17,4 +16,4 @@ ETCD_PEER_ADDR="${HOSTNAME}:7001"
 
 eval $(sed -e "s/^/export /" /etc/environment)
 
-chpst -u etcd etcd -data-dir /var/lib/etcd -name ${ETCD_NAME} -discovery ${ETCD_DISCOVERY_URL} -peer-addr ${ETCD_PEER_ADDR} -addr ${ETCD_ADDR}
+exec chpst -u etcd etcd -data-dir /var/lib/etcd -name ${ETCD_NAME} -discovery ${ETCD_DISCOVERY_URL} -peer-addr ${ETCD_PEER_ADDR} -addr ${ETCD_ADDR}
