@@ -3,16 +3,18 @@ set -e
 
 exec 2>&1
 
-HOSTNAME="$(hostname)"
-
 DEFAULTS=/etc/default/etcd
 
 if [[ -f ${DEFAULTS} ]]
 then
   source $DEFAULTS
 fi
-ETCD_ADDR="${HOSTNAME}:4001"
-ETCD_PEER_ADDR="${HOSTNAME}:7001"
+
+mac="$(curl http://169.254.169.254/latest/meta-data/mac)"
+internal_ip="$(curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/${mac}/local-ipv4s)"
+
+ETCD_ADDR="${internal_ip}:4001"
+ETCD_PEER_ADDR="${internal_ip}:7001"
 
 eval $(sed -e "s/^/export /" /etc/environment)
 
